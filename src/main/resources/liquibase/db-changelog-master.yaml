@@ -1,0 +1,3 @@
+databaseChangeLog:
+  - include:
+      file: liquibase/01-add-location-table/01.add-location-table.yml

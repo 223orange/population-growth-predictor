@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 01.add-location-table.yml
+      author: iliya.naydenov
+      changes:
+        - createTable:
+            tableName: locations
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
