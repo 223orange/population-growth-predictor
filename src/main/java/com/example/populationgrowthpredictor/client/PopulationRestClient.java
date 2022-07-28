@@ -27,10 +27,10 @@ public class PopulationRestClient {
         this.webClient = webClient;
     }
 
-    public List<LocationPopulationStats> getPopulationByLocationStartYearEndYear(String location, int startYear, int endYear) {
+    public List<LocationPopulationStats> getPopulationByLocationStartYearEndYear(int locationId, int startYear, int endYear) {
         UriComponents url = UriComponentsBuilder.fromHttpUrl(BASE_URL)
-                .path("/data/indicators/49/locations/{location}/start/{startYear}/end/{endYear}")
-                .buildAndExpand(location,
+                .path("/data/indicators/49/locations/{locationId}/start/{startYear}/end/{endYear}")
+                .buildAndExpand(locationId,
                         startYear, endYear);
 
         ResponseEntity<List<LocationPopulationStats>> response = webClient.get()

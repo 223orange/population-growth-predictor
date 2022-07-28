@@ -18,7 +18,7 @@ public class PopulationService {
         this.populationRestClient = populationRestClient;
     }
 
-    public List<LocationPopulationStats> getExpectedPopulationByStartYearAndEndYear(String location, int startYear, int endYear){
-        return populationRestClient.getPopulationByLocationStartYearEndYear(location, startYear, endYear);
+    public List<LocationPopulationStats> getExpectedPopulationByStartYearAndEndYear(int locationId, int startYear, int endYear){
+        return populationRestClient.getPopulationByLocationStartYearEndYear(locationId, startYear, endYear);
     }
 }

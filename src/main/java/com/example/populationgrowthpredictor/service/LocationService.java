@@ -46,4 +46,8 @@ public class LocationService {
         }
         return new ArrayList<>();
     }
+
+    public Optional<Location> findLocationByName(String name){
+        return this.locationRepository.findByName(name);
+    }
 }
