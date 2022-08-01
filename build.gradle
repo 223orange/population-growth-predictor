@@ -23,11 +23,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'mysql:mysql-connector-java:8.0.30'
 	implementation 'org.liquibase:liquibase-core:4.13.0'
-	implementation 'org.hibernate.validator:hibernate-validator:7.0.4.Final'
+	implementation 'org.springframework.boot:spring-boot-starter-validation:2.7.2'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux:2.7.2'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.7'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+	testImplementation 'org.awaitility:awaitility:4.2.0'
+	testImplementation 'com.h2database:h2:2.1.212'
 }
 
 tasks.named('test') {

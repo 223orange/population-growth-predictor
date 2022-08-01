@@ -42,6 +42,10 @@ public class LocationService {
                     locations.addAll(message.getLocations());
                 }
             } while (optionalLocationMessage.isPresent() && optionalLocationMessage.get().getNextPage() != null);
+
+            List<Location> existingLocations = this.getAllLocations();
+            locations.removeAll(existingLocations);
+
             return this.locationRepository.saveAll(locations);
         }
         return new ArrayList<>();

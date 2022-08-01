@@ -2,10 +2,12 @@ package com.example.populationgrowthpredictor.controller;
 
 import com.example.populationgrowthpredictor.model.Location;
 import com.example.populationgrowthpredictor.service.LocationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,12 +23,12 @@ public class AdminController {
         this.locationService = locationService;
     }
 
-    @GetMapping(path = "/locations")
+    @Operation(summary = "Populate DB with locations",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "List of locations")
+            })
+    @PostMapping(path = "/locations")
     public ResponseEntity<List<Location>> populateWithLocations(){
-        List<Location> result = locationService.populateWithLocations();
-        if( !result.isEmpty()){
-            return ResponseEntity.status(HttpStatus.OK).body(result);
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return ResponseEntity.status(HttpStatus.OK).body(this.locationService.populateWithLocations());
     }
 }

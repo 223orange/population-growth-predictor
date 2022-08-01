@@ -4,6 +4,13 @@ import com.example.populationgrowthpredictor.model.Location;
 import com.example.populationgrowthpredictor.model.PopulationStats;
 import com.example.populationgrowthpredictor.service.LocationService;
 import com.example.populationgrowthpredictor.service.PopulationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +36,26 @@ public class PopulationStatsController {
         this.locationService = locationService;
     }
 
+    @Operation(summary = "Returns a list with stats about the population for a given location, start year and end year",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "List of population stats"),
+                    @ApiResponse(responseCode = "404", description = "Not found"),
+            })
+
+    @Parameters({
+        @Parameter(in = ParameterIn.PATH,
+                description = "Location name",
+                name = "locationName",
+                content = @Content(schema = @Schema(type = "string", required = true))),
+        @Parameter(in = ParameterIn.PATH,
+                description = "Starting year",
+                name = "startYear",
+                content = @Content(schema = @Schema(type = "int", required = true))),
+        @Parameter(in = ParameterIn.PATH,
+                description = "Ending year",
+                name = "endYear",
+                content = @Content(schema = @Schema(type = "int", required = true)))
+    })
     @GetMapping("/expected-population/{locationName}/{startYear}/{endYear}")
     public ResponseEntity<List<PopulationStats>> getExpectedPopulationByLocationStartYearAndEndYear(@PathVariable String locationName,
                                                                                                     @PathVariable int startYear,
@@ -44,7 +71,18 @@ public class PopulationStatsController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
+    @Operation(summary = "Returns a list with ranking of the top 20 countries, sorted by population for a given year",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "List of population stats"),
+                    @ApiResponse(responseCode = "404", description = "Not found"),
+            })
 
+    @Parameters({
+            @Parameter(in = ParameterIn.PATH,
+                    description = "Given year",
+                    name = "year",
+                    content = @Content(schema = @Schema(type = "int", required = true)))
+    })
     @GetMapping("/ranking/{year}")
     public ResponseEntity<List<PopulationStats>> getRankingByYear(@PathVariable int year) {
         List<PopulationStats> ranking = this.populationService.getRangingByYear(year);
