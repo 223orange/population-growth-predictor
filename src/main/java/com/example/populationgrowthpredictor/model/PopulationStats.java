@@ -6,27 +6,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
-
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LocationPopulationStats {
+public class PopulationStats {
 
-    @NotNull
-    private Integer id;
-    @NotNull
-    private String locationId;
-    @NotNull
+    private Integer locationId;
+
     private String location;
-    @NotNull
+
     @JsonProperty("timeLabel")
-    private Integer year;
-    @NotNull
+    private String time;
+
     private String variant;
-    @NotNull
+
     private String sex;
-    @NotNull
+
     private Long value;
 }

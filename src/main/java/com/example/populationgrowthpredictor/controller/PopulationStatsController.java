@@ -1,7 +1,7 @@
 package com.example.populationgrowthpredictor.controller;
 
 import com.example.populationgrowthpredictor.model.Location;
-import com.example.populationgrowthpredictor.model.LocationPopulationStats;
+import com.example.populationgrowthpredictor.model.PopulationStats;
 import com.example.populationgrowthpredictor.service.LocationService;
 import com.example.populationgrowthpredictor.service.PopulationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +30,15 @@ public class PopulationStatsController {
     }
 
     @GetMapping("/expected-population/{locationName}/{startYear}/{endYear}")
-    public ResponseEntity<List<LocationPopulationStats>> getExpectedPopulationByLocationStartYearAndEndYear(@PathVariable String locationName,
-                                                                                                            @PathVariable int startYear,
-                                                                                                            @PathVariable int endYear) {
+    public ResponseEntity<List<PopulationStats>> getExpectedPopulationByLocationStartYearAndEndYear(@PathVariable String locationName,
+                                                                                                    @PathVariable int startYear,
+                                                                                                    @PathVariable int endYear) {
         Optional<Location> optionalLocation = this.locationService.findLocationByName(locationName);
         if(optionalLocation.isPresent()){
             Location savedLocation = optionalLocation.get();
-            List<LocationPopulationStats> populationList = populationService.getExpectedPopulationByStartYearAndEndYear(savedLocation.getId(), startYear, endYear);
-            if (!populationList.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.OK).body(populationList);
+            List<PopulationStats> response = populationService.getExpectedPopulationByStartYearAndEndYear(savedLocation.getId(), startYear, endYear);
+            if (!response.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.OK).body(response);
             }
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

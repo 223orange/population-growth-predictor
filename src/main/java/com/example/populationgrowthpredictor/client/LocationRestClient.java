@@ -25,9 +25,8 @@ public class LocationRestClient {
     }
 
     public Optional<LocationMessage> getLocationPage(String url) {
-        ResponseEntity<LocationMessage> response;
         try {
-            response = webClient.get()
+            ResponseEntity<LocationMessage> response = webClient.get()
                     .uri(url)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .accept(MediaType.APPLICATION_JSON)

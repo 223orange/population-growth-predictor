@@ -17,7 +17,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 public class LocationService {
-    private static final String BASE_URL = "https://population.un.org/dataportalapi/api/v1/locations";
+    public static final String BASE_URL = "https://population.un.org/dataportalapi/api/v1";
 
     private final LocationRestClient client;
 
@@ -30,7 +30,7 @@ public class LocationService {
     }
 
     public List<Location> populateWithLocations() {
-        UriComponents url = UriComponentsBuilder.fromHttpUrl(BASE_URL).build();
+        UriComponents url = UriComponentsBuilder.fromHttpUrl(BASE_URL + "/locations").build();
         Optional<LocationMessage> optionalLocationMessage = this.client.getLocationPage(url.toUriString());
         if (optionalLocationMessage.isPresent()) {
             LocationMessage message = optionalLocationMessage.get();

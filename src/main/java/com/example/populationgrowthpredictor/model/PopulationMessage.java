@@ -17,6 +17,6 @@ public class PopulationMessage {
     private Integer pageSize;
     private String nextPage;
     private Integer pages;
-//    @JsonProperty("data")
-//    private List<> locations;
+    @JsonProperty("data")
+    private List<PopulationStats> populationStats;
 }
