@@ -47,6 +47,10 @@ public class LocationService {
         return new ArrayList<>();
     }
 
+    public List<Location> getAllLocations(){
+        return this.locationRepository.findAll();
+    }
+
     public Optional<Location> findLocationByName(String name){
         return this.locationRepository.findByName(name);
     }

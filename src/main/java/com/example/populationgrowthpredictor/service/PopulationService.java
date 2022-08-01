@@ -1,6 +1,7 @@
 package com.example.populationgrowthpredictor.service;
 
 import com.example.populationgrowthpredictor.client.PopulationRestClient;
+import com.example.populationgrowthpredictor.model.Location;
 import com.example.populationgrowthpredictor.model.PopulationMessage;
 import com.example.populationgrowthpredictor.model.PopulationStats;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +11,10 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.example.populationgrowthpredictor.service.LocationService.BASE_URL;
 
@@ -25,9 +28,16 @@ public class PopulationService {
 
     private final PopulationRestClient populationRestClient;
 
+    private final LocationService locationService;
+
     @Autowired
-    public PopulationService(PopulationRestClient populationRestClient) {
+    public PopulationService(PopulationRestClient populationRestClient, LocationService locationService) {
         this.populationRestClient = populationRestClient;
+        this.locationService = locationService;
+    }
+
+    public List<PopulationStats> getExpectedPopulationByYear(int locationId, int year) {
+        return this.getExpectedPopulationByStartYearAndEndYear(locationId, year, year);
     }
 
     public List<PopulationStats> getExpectedPopulationByStartYearAndEndYear(int locationId, int startYear, int endYear) {
@@ -62,6 +72,20 @@ public class PopulationService {
         return result;
     }
 
+    public List<PopulationStats> getRangingByYear(int year) {
+        List<Location> locationsDb = this.locationService.getAllLocations();
+        List<PopulationStats> resultList = new ArrayList<>();
+        for (Location location : locationsDb) {
+            List<PopulationStats> listByLocation = this.getExpectedPopulationByYear(location.getId(), year);
+            resultList.addAll(listByLocation);
+        }
+
+        return resultList.stream()
+                .sorted((loc1, loc2) -> Long.compare(loc2.getValue(), loc1.getValue()))
+                .limit(20)
+                .collect(Collectors.toList());
+    }
+
     private List<PopulationStats> getData(List<PopulationStats> populationStats) {
         List<PopulationStats> stats = new ArrayList<>();
         for (PopulationStats data : populationStats) {
@@ -71,4 +95,5 @@ public class PopulationService {
         }
         return stats;
     }
+
 }

@@ -34,14 +34,25 @@ public class PopulationStatsController {
                                                                                                     @PathVariable int startYear,
                                                                                                     @PathVariable int endYear) {
         Optional<Location> optionalLocation = this.locationService.findLocationByName(locationName);
-        if(optionalLocation.isPresent()){
+        if (optionalLocation.isPresent()) {
             Location savedLocation = optionalLocation.get();
-            List<PopulationStats> response = populationService.getExpectedPopulationByStartYearAndEndYear(savedLocation.getId(), startYear, endYear);
+            List<PopulationStats> response = this.populationService.getExpectedPopulationByStartYearAndEndYear(savedLocation.getId(), startYear, endYear);
             if (!response.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             }
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+
+
+    @GetMapping("/ranking/{year}")
+    public ResponseEntity<List<PopulationStats>> getRankingByYear(@PathVariable int year) {
+        List<PopulationStats> ranking = this.populationService.getRangingByYear(year);
+        if (!ranking.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body(ranking);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
 
 }
